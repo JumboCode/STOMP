@@ -1,5 +1,6 @@
 import React from 'react';
+import {RegisterPage} from './register'
 
 export default function App() {
-    return <div>Your React Node app is set up!</div>
+    return <RegisterPage/>
 };
