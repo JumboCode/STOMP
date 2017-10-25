@@ -17,9 +17,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "create-react-class": "^15.6.2",
     "express": "^4.16.1",
     "react": "^16.0.0",
-    "react-dom": "^16.0.0"
+    "react-dom": "^16.0.0",
+    "react-modal-component": "^1.0.9"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html" charset="utf-8">
+    <Title>STOMP! | Sign in</Title>
+  </head>
+  <body>
+    <h1 class = "Sign in">Sign in to STOMP!</h1>
+    <h2>Email:</h2>
+    <h2>Password:</h2>
+    <h2>Sign in</h2>
+    <h2>Register</h2>
+  </body>
+</html>

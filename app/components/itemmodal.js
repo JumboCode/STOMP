@@ -1,24 +1,47 @@
 import React from 'react';
 import { render } from 'react-dom';
 
-export class ItemModal extends React.Component {
-    open() {
-    }
+const display = {
+  display: 'block'
+};
+const hide = {
+  display: 'none'
+};
 
-    close() {
+export class Modal extends React.Component {
+  constructor(props) {
+    super(props);
+    this.toggle = this.toggle.bind(this);
 
+    this.state = {
+      toggle: false
     }
+  }
 
-	render() {
-		return (
-            <div>
-                <button id="button" onClick={this.open}>Add Item</button>
-                <div className="modal">
-                    <span className="close" onClick={this.close}>&times;</span>
-                    Item: <input name="item" type="text" /> <br />
-                    Number: <input name="number" type="text" /> <br />
-                </div>
-            </div>
-        );
-    }
+  toggle(event) {
+    this.setState(prevState => ({
+      toggle: !prevState.toggle
+    }));
+  }
+
+  render() {
+    var modal = [];
+    modal.push(
+      <div className="modal" style={this.state.toggle ? display : hide}>
+      <div className="modal-content">
+        <h4>Modal Header</h4>
+        <p>A bunch of text</p>
+      </div>
+      <div className="modal-footer">
+        <a className="btn" onClick={this.toggle}>Agree</a>
+      </div>
+    </div>
+    );
+    return (
+      <div>
+        <a className="btn" onClick={this.toggle}>Modal</a>
+        {modal}
+      </div>
+    );
+  }
 }
