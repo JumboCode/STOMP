@@ -1,9 +1,10 @@
 var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb://localhost:27017/mydb";
+var url = "mongodb://localhost:27017/stompdb";
 
 MongoClient.connect(url, function(err, db) {
   if (err) throw err;
   /* Placeholder values. Assume tuftsID and email uniquely identify each item */
+  /* Note: can replace tuftsid with _id to directly use as a unique field */
   var users = [
     { 
       tuftsid:    '1117788', 
@@ -33,12 +34,12 @@ MongoClient.connect(url, function(err, db) {
     },
 
     { 
-      tuftsid: '1116724',
+      tuftsid:    '1116724',
       first_name: 'Alex',
-      last_name: 'Smith',     
-      admin:     'false',
-      email: 'asmith01@cs.tufts.edu',
-      password: '2scoops'
+      last_name:  'Smith',     
+      admin:      'false',
+      email:      'asmith01@cs.tufts.edu',
+      password:   '2scoops'
     }
   ];
   /* Placeholder values. Assume item_name uniquely identifies each item */
