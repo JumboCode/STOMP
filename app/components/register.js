@@ -17,9 +17,12 @@ export class RegisterPage extends React.Component {
 
     const container = {
       display: 'block',
-      margin: 'auto',
-      height: '60%',
-      width: '40%',
+      borderRadius: '10px 50px 30px',
+      background: '#FFFFFF',
+      marginLeft: '580px',
+      marginTop: '40px',
+      height: '470px',
+      width: '400px',
       border: '1px black solid',
       fontFamily: "Helvetica",
       textAlign: 'center',
@@ -38,6 +41,8 @@ export class RegisterPage extends React.Component {
         First Name: <input type="text" placeholder="Enter First Name" name="first" required/> 
 	<br /> <br />
         Last Name: <input type="text" placeholder="Enter Last Name" name="last" required/>
+        <br /> <br />
+        Email: <input type="text" placeholder="Enter Tufts/Business Email" name="last" required/>
         <br /> <br />
 	Password: <input type="text" placeholder="Enter Password" name="password" required/>
         <br /> <br />

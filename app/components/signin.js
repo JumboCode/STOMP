@@ -13,9 +13,12 @@ export class SignIn extends React.Component {
 	render() {
 	    const login_container = {
 		display: 'block',
-		margin: '20%',
-		height: '70%',
-		width: '40%',
+		borderRadius: '20px',
+		margin: '100px',
+		marginLeft: '200px',
+		marginTop: '150px',
+		height: '400px',
+		width: '400px',
 		background: "#3D5AFE",
 		fontFamily: "Helvetica",
 		color: 'white',
