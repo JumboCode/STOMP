@@ -12,6 +12,15 @@ export class RegisterPage extends React.Component {
         tuftsID: "",
       };
   }
+  encode(string) {
+  for(var i = 0; i < string.length; i++)
+    if(string[i] == '>') {
+      string[i] = '&gt';
+    }
+    if (string[i] == '<') {
+      string[i] = '&lt';
+    }
+  }
 
   render() {
 
@@ -52,7 +61,7 @@ export class RegisterPage extends React.Component {
 	<br /><br />
       </div>
       <div>
-        <button style={button_style}>Register</button>
+        <button style={button_style} onClick={()=>encode(this.state.first)}>Register</button>
       </div>
       </div>
     )
