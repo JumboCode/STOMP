@@ -7,19 +7,39 @@ export class RegisterPage extends React.Component {
       this.state = {
         first: "",
         last: "",
+        email: "",
         password: "",
         confirm:  "",
         tuftsID: "",
       };
   }
-  encode(string) {
-  for(var i = 0; i < string.length; i++)
-    if(string[i] == '>') {
-      string[i] = '&gt';
+  encode(field, string) {
+    var newString = "";
+    for(var i = 0; i < string.length; i++) {
+      if(string[i] == '>') {
+        newString += '&gt';
+      }
+      else if (string[i] == '<') {
+        newString += '&lt';
+      }
+      else
+        newString += string[i];
+
     }
-    if (string[i] == '<') {
-      string[i] = '&lt';
-    }
+    this.update(field, newString)
+}
+
+  update(field, value) {
+
+    this.setState({[field]: value});
+  }
+
+  encodeInput()
+  {
+    this.encode("first", this.state.first);
+    this.encode("last", this.state.last);
+    this.encode("email", this.state.email);
+    this.encode("tuftsID", this.state.tuftsID);
   }
 
   render() {
@@ -47,21 +67,21 @@ export class RegisterPage extends React.Component {
       <div className="register" style={container}>
       <h1 style={{fontSize: '64px'}}> REGISTER </h1>
       <div>
-        First Name: <input type="text" placeholder="Enter First Name" name="first" required/> 
+        First Name: <input type="text" placeholder="Enter First Name" name="first" onChange={(event)=>this.update("first", event.target.value)} required/> 
 	<br /> <br />
-        Last Name: <input type="text" placeholder="Enter Last Name" name="last" required/>
+        Last Name: <input type="text" placeholder="Enter Last Name" name="last" onChange={(event)=>this.update("last", event.target.value)}required/>
         <br /> <br />
-        Email: <input type="text" placeholder="Enter Tufts/Business Email" name="last" required/>
+        Email: <input type="text" placeholder="Enter Tufts/Business Email" name="email" onChange={(event)=>this.update("email", event.target.value)} required/>
         <br /> <br />
-	Password: <input type="text" placeholder="Enter Password" name="password" required/>
+	Password: <input type="password" placeholder="Enter Password" name="password" onChange={(event)=>this.update("password", event.target.value)}required/>
         <br /> <br />
-	Confirm Password: <input type="text" placeholder="Confirm Password" name="confirm" required/>
+	Confirm Password: <input type="password" placeholder="Confirm Password" name="confirm" onChange={(event)=>this.update("confirm", event.target.value)} required/>
         <br /> <br />
-	Tufts ID: <input type="text" placeholder="Enter Tufts ID" name="tuftsID" required/>
+	Tufts ID: <input type="text" placeholder="Enter Tufts ID" name="tuftsID" onChange={(event)=>this.update("tuftsID", event.target.value)} required/>
 	<br /><br />
       </div>
       <div>
-        <button style={button_style} onClick={()=>encode(this.state.first)}>Register</button>
+        <button style={button_style} onClick={()=>this.encodeInput()}>Register</button>
       </div>
       </div>
     )
