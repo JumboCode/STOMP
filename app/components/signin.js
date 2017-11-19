@@ -10,6 +10,12 @@ export class SignIn extends React.Component {
 		    password: "",
 		};
 	}
+	 update(field, value) {
+    	this.setState({[field]: value});
+  	}
+
+
+
 	render() {
 	    const login_container = {
 		display: 'block',
@@ -37,8 +43,8 @@ export class SignIn extends React.Component {
     		<div className="signin" style={login_container}>
 			<h1 style={{fontSize: '64px', textAlign: 'center'}}>LOGIN</h1>
 			<h2 style={{fontSize: '21px'}}>Welcome back</h2>
-    			<div>Email: <input name="email" type="text" /> <br /> <br />
-			    Password: <input name="password" type="text" /> <br /> <br />
+    			<div>Email: <input name="email" type="text" onChange={(event)=>this.update("email", event.target.value)} /> <br /> <br />
+			    Password: <input name="password" type="text" onChange={(event)=>this.update("password", event.target.value)} /> <br /> <br />
 			    <button style={button_style}>Log In</button>
 			</div>
     		</div>
