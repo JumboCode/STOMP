@@ -1,5 +1,7 @@
 branches:
-  only: master
+  only:
+  - master
+  - UnitTests
 language: node_js
 node_js:
   - "iojs"
