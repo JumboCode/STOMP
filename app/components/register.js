@@ -59,9 +59,9 @@ export class RegisterPage extends React.Component {
     };
 
     const button_style = {
-	background: '#FF6E40',
-	color: 'black',
-	fontSize: 32,
+	    background: '#FF6E40',
+	    color: 'black',
+	    fontSize: 32,
     };
     return (
       <div className="register" style={container}>
