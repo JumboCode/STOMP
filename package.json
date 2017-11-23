@@ -19,6 +19,7 @@
   "dependencies": {
     "express": "^4.16.1",
     "mongodb": "^2.2.33",
+    "mongoutil": "^1.0.1",
     "react": "^16.0.0",
     "react-dom": "^16.0.0"
   },

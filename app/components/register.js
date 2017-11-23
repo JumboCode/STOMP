@@ -30,7 +30,6 @@ export class RegisterPage extends React.Component {
     }
 
     update(field, value) {
-
         this.setState({[field]: value});
     }
 
