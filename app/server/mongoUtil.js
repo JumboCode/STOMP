@@ -9,8 +9,15 @@ module.exports = {
         });
     },
 
-    findAll: function () {
+    findAllUsers: function () {
         var collection = _db.collection('users');
+        return collection.find()
+                         .toArray()
+                         .then(function(items) { return items; });
+    },
+
+    findAllItems: function () {
+        var collection = _db.collection('items');
         return collection.find()
                          .toArray()
                          .then(function(items) { return items; });

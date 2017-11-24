@@ -14,7 +14,7 @@ var new_user =  {
 mongoUtil.connectToDb().then(
     function () {
         // find all the existing records and then...
-        mongoUtil.findAll().then(
+        mongoUtil.findAllUsers().then(
             function (items) {
                 // check all records
                 for (var i = 0; i < items.length; i++) {
