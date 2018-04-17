@@ -5,7 +5,7 @@ const InventoryList = (props) => {
     const { textFormat, viewFormat } = styling;
     return (
         <View style={viewFormat}>
-            <Text style={textFormat}>{props.listText}</Text>
+            <Text style={textFormat}>{'hello-world'}</Text>
         </View>
     );
 };
