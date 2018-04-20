@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text } from 'react-native';
 import { StackNavigator } from 'react-navigation';
+import { Button } from 'react-native-elements';
 
 export default class HomeScreen extends React.Component {
 
@@ -14,19 +15,29 @@ export default class HomeScreen extends React.Component {
     const { navigate } = this.props.navigation;
 
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Button
-          title="Go to List Screen"
-          onPress={() =>
-            navigate('List', {})
-          }
-        />
-        <Button
-          title="Go to Info Screen"
-          onPress={() =>
-            navigate('Info', {})
-          }
-        />
+      // An example of how to use flex to get 2 vetrically aligned boxes with things in the middles
+      <View style={{ flex: 1, alignItems: 'center', }}>
+        <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center', }}>
+
+          // NOTE: this is a React-Native-Elements Button! Slightly different than a React-Native Button,
+          // It builds off touchable opacity and generally looks better! (And has more accessible styling)
+          <Button
+            large
+            title="Go to List Screen"
+            backgroundColor = 'blue'
+            onPress={() =>
+              navigate('List', {})
+            }
+          />
+        </View>
+        <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center', }}>
+          <Button
+            title="Go to Info Screen"
+            onPress={() =>
+              navigate('Info', {})
+            }
+          />
+        </View>
       </View>
     );
   }
