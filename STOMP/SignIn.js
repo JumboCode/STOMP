@@ -1,6 +1,8 @@
 import React from 'react';
 import { TextInput, Text } from 'react-native';
 
+// This page isn't wired into the app, but I'm keeping it here incase of merge conflicts!
+// Makae sure to move this into src/ later if u wanna keep it!
 export default class App extends React.Component {
     render() {
         return (
