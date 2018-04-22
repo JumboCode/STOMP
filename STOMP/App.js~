@@ -10,6 +10,7 @@ import InfoScreen from './src/InfoScreen' // This is just an example of somethig
 import ListScreen from './src/List/ListScreen'
 import ItemScreen from './src/List/ItemScreen'
 
+
 // This file should just set up navigation, so all actual content is in src/
 
 // Define what views the stack navigator will use
@@ -25,13 +26,9 @@ const RootStack = StackNavigator(
   }
 );
 
-//
-import Splash from './Splash'
-
 // This is the main entry point into the app!
 export default class App extends React.Component {
   render() {
-    // return <RootStack />;
-    return <Splash />;
+    return <RootStack />;
   }
 }
