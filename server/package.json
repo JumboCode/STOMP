@@ -1,0 +1,37 @@
+{
+  "name": "stomp-server",
+  "version": "0.3.0",
+  "description": "A server for the STOMP app",
+  "engines": {
+    "node": "8.9.1"
+  },
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "bcrpyt": "^2.0.0",
+    "body-parser": "latest",
+    "ejs": "^2.5.6",
+    "express": "^4.15.2",
+    "mongodb": "^2.2.33",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "validator": "latest"
+  },
+  "devDependencies": {
+    "request": "^2.81.0",
+    "tape": "^4.7.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/heroku/node-js-getting-started"
+  },
+  "keywords": [
+    "node",
+    "heroku",
+    "express"
+  ],
+  "license": "MIT"
+}
