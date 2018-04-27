@@ -10,7 +10,10 @@ import InfoScreen from './src/InfoScreen' // This is just an example of somethig
 import ListScreen from './src/inventory/ListScreen'
 import ItemScreen from './src/inventory/ItemScreen'
 
-import LoginScreen from './src/LoginScreen'
+import LoginScreen from './src/LoginStack/LoginScreen'
+import SplashScreen from './src/LoginStack/SplashScreen'
+import SignupScreen from './src/LoginStack/SignupScreen'
+
 import ProfileScreen from './src/profile/ProfileScreen'
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -64,10 +67,12 @@ const _AppTabs = TabNavigator(
 // this probably won't need to be a full stack
 const _LoginStack = StackNavigator(
   {
+    Splash: { screen: SplashScreen },
     Login: { screen: LoginScreen },
+    Signup: { screen: SignupScreen },
   },
   {
-    initialRouteName: 'Login',
+    initialRouteName: 'Splash',
   }
 )
 
