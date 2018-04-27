@@ -3,6 +3,16 @@ import { View, Text, TextInput, StyleSheet, Alert } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { Button } from 'react-native-elements';
 
+/*request = new XMLHttpRequest();
+request.open('GET', 'https://shrouded-crag-14655.herokuapp.com/getItem?name=bucket', true);
+request.onreadystatechange = function() {
+  if (request.readyState == 4 && request.status == 200) {
+    responseString = request.responseText;
+    item = JSON.parse(responseString); //response text into array
+  }
+};
+request.send();*/
+
 export default class ItemScreen extends React.Component {
 
   // These are for react navigation, like header bar and such
