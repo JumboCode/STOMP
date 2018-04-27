@@ -10,23 +10,37 @@ import { List, ListItem } from 'react-native-elements'
 // TODO: populate the icon (or image) with something suitible
 
 
-request = new XMLHttpRequest();
-request.open('GET', 'https://shrouded-crag-14655.herokuapp.com/getList', true);
-request.onreadystatechange = function() {
-  if (request.readyState == 4 && request.status == 200) {
-    responseString = request.responseText;
-    list = JSON.parse(responseString); //response text into array
-  }
-};
-request.send();
+
 
 
 export default class ListScreen extends React.Component {
+
+  constructor(props){
+    super(props);
+    this.state={
+      list: []
+    }
+    this._getList();
+  }
 
   // These are for react navigation, like header bar and such
   static navigationOptions = {
     title: 'List',
   };
+
+  _getList= () => {
+    request = new XMLHttpRequest();
+    request.open('GET', 'https://shrouded-crag-14655.herokuapp.com/getList', true);
+    request.onreadystatechange = () => {
+      if (request.readyState == 4 && request.status == 200) {
+        responseString = request.responseText;
+        let _list = JSON.parse(responseString); //response text into array
+        this.setState({ list: _list })
+      }
+      //TODO: else case
+    };
+    request.send();
+  }
 
   render() {
 
@@ -37,7 +51,7 @@ export default class ListScreen extends React.Component {
       <List containerStyle={{marginBottom: 20}}>
         {
           // this maps our map to renderable ListItems
-          list.map((item, index) => (
+          this.state.list.map((item, index) => (
             <ListItem
               key={index} // Ensure these are unique per item (like by using the list index)
               title={item}
