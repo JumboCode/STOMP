@@ -17,6 +17,11 @@ export default class SignupScreen extends React.Component {
         navigate('AppSwitch', {})
     }
 
+    _goToLogIn = () => {
+        const { navigate } = this.props.navigation;
+        navigate('Login', {})
+    }
+
     render() {
     // this is the navigator we passed in from App.js
     const { navigate } = this.props.navigation;
@@ -44,7 +49,7 @@ export default class SignupScreen extends React.Component {
                     <Button
                         titleStyle={{ fontWeight: "700" }}
                         buttonStyle={styles.button}
-                        onPress = {() => {this._goToLogIn()}}
+                        onPress = {() => {this._enterApp()}}
                         containerStyle={{ marginTop: 20 }}
                         title="SIGN UP">
                     </Button>
