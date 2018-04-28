@@ -7,48 +7,50 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default class SplashScreen extends React.Component {
 
-  // These are for react navigation, like header bar and such
-  static navigationOptions = {
-  };
+    // These are for react navigation, like header bar and such
+    static navigationOptions = {
+    };
 
-  _goToLogIn = () => {
-    const { navigate } = this.props.navigation;
-    navigate('Login', {})
-  }
+    _goToLogIn = () => {
+        const { navigate } = this.props.navigation;
+        navigate('Login', {})
+    }
 
-  _goToSignUp = () => {
-    const { navigate } = this.props.navigation;
-    navigate('Signup', {})
-  }
+    _goToSignUp = () => {
+        const { navigate } = this.props.navigation;
+        navigate('Signup', {})
+    }
 
-  render() {
+    render() {
     // this is the navigator we passed in from App.js
     const { navigate } = this.props.navigation;
 
     return (
             <View style={styles.container}>
-              <View style={styles.textContainer}>
-                <Text style={styles.title}>STOMP</Text>
-              </View>
-              <View style={styles.buttonContainer}>
-                <Button
-                  titleStyle={{ fontWeight: "700" }}
-                  buttonStyle={styles.button}
-                  onPress = {() => {this._goToLogIn()}}
-                  containerStyle={{ marginTop: 20 }}
-                  title="LOG IN">
-                </Button>
-                <Button
-                  titleStyle={{ fontWeight: "700" }}
-                  buttonStyle={styles.button}
-                  onPress = {() => {this._goToSignUp()}}
-                  containerStyle={{ marginTop: 20 }}
-                  title="SIGN UP">
-                </Button>
-              </View>
+                <View style={styles.textContainer}>
+                    <Text style={styles.title}>STOMP</Text>
+                </View>
+
+                <View style={styles.buttonContainer}>
+                    <Button
+                        titleStyle={{ fontWeight: "700" }}
+                        buttonStyle={styles.button}
+                        onPress = {() => {this._goToLogIn()}}
+                        containerStyle={{ marginTop: 20 }}
+                        title="LOG IN">
+                    </Button>
+
+                    <Button
+                        titleStyle={{ fontWeight: "700" }}
+                        buttonStyle={styles.button}
+                        onPress = {() => {this._goToSignUp()}}
+                        containerStyle={{ marginTop: 20 }}
+                        title="SIGN UP">
+                    </Button>
+                </View>
             </View>
-    );
-  }
+        );
+    }
 }
 
 const styles = StyleSheet.create({
@@ -66,12 +68,12 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     textContainer: {
-      flex: 1,
+      flex: 4,
       flexDirection: 'column',
       justifyContent: 'flex-end',
     },
     buttonContainer: {
-      flex: 1,
+      flex: 6,
       flexDirection: 'column',
       justifyContent: 'flex-start',
     },
