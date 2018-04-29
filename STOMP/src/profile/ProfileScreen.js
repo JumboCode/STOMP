@@ -8,7 +8,14 @@ export default class ProfileScreen extends React.Component {
   // These are for react navigation, like header bar and such
   static navigationOptions = {
     title: 'My Account',
-  };
+      headerStyle: {
+        backgroundColor: '#272727',
+      },
+      headerTintColor: '#FFFFFF',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+};
 
   render() {
     // this is the navigator we passed in from App.js

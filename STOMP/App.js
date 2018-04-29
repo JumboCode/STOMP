@@ -43,15 +43,18 @@ const _AppTabs = TabNavigator(
     navigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, tintColor }) => {
         const { routeName } = navigation.state;
-        let iconName = (routeName === "InventoryTab") ? 'md-mic' : "md-paw";
+        let iconName = (routeName === "InventoryTab") ? 'md-list' : "md-person";
         return <Ionicons name={iconName} size={25} color={tintColor} />;
       },
     }),
 
     // TODO: STYLING
     tabBarOptions: {
-      activeTintColor: 'tomato',
+      activeTintColor: '#FFFFFF',
       inactiveTintColor: 'gray',
+            style: {
+        backgroundColor: '#272727',
+      },
     },
     tabBarComponent: TabBarBottom,
     tabBarPosition: 'bottom',

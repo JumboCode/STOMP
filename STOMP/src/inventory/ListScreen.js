@@ -22,7 +22,14 @@ export default class ListScreen extends React.Component {
 
   // These are for react navigation, like header bar and such
   static navigationOptions = {
-    title: 'List',
+      title: 'List',
+        headerStyle: {
+          backgroundColor: '#272727',
+        },
+        headerTintColor: '#FFFFFF',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
   };
 
   _getList= () => {
@@ -88,7 +95,7 @@ export default class ListScreen extends React.Component {
             clearIcon={this.state.searchInput !== ''}
           />
           <FlatList
-            keyExtractor={this.keyExtractor}
+            keyExtractor={this._keyExtractor}
             data={this._filterItems(this.state.list)}
             renderItem={this._renderItem}
             onRefresh={()=>{this._getList()}}
