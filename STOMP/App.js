@@ -2,10 +2,6 @@ import React from 'react';
 import {  StackNavigator, SwitchNavigator, TabNavigator, TabBarBottom} from 'react-navigation';
 
 // These are the screens we want to navigate between!
-// Make sure to have any screen you want accessible added to the StackNavigator Here!
-import HomeScreen from './src/HomeScreen'
-import InfoScreen from './src/InfoScreen' // This is just an example of somethign
-
 // Group screens together in file structure when appropriate!
 import ListScreen from './src/inventory/ListScreen'
 import ItemScreen from './src/inventory/ItemScreen'
@@ -17,10 +13,10 @@ import SignupScreen from './src/LoginStack/SignupScreen'
 import ProfileScreen from './src/profile/ProfileScreen'
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
+
+
 // This file should just set up navigation, so all actual content is in src/
-
 // Define what views / tabs / stacks the navigator will use
-
 
 const _InventoryStack = StackNavigator(
   {
