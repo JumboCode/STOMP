@@ -1,15 +1,29 @@
 import React from 'react';
 import { Alert, Linking, StyleSheet, TextInput, Text, View } from 'react-native';
 import { StackNavigator } from 'react-navigation';
-import { Button } from 'react-native-elements';
+import { Button, Input } from 'react-native-elements';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-export default class LoginScreen extends React.Component {
+export default class SignupScreen extends React.Component {
+
+    constructor(props) {
+      super(props);
+      this.state = {
+        password: '',
+        email: '',
+
+        // all valid so that we don't shake the first time.
+        valid: {
+          password: true,
+          email: true,
+        }
+      }
+    }
 
     // These are for react navigation, like header bar and such
     static navigationOptions = {
-        title: 'Home',
+        title: 'Log in',
     };
 
     _enterApp = () => {
@@ -17,9 +31,43 @@ export default class LoginScreen extends React.Component {
         navigate('AppSwitch', {})
     }
 
-    _goToLogIn = () => {
+    _goToSignUp = () => {
         const { navigate } = this.props.navigation;
-        navigate('Login', {})
+        navigate('Signup', {})
+    }
+
+    _signIn = () => {
+      let valid = this._validateFields();
+
+      // then we attempt to sign up with the server...
+      if (valid) {
+        // TODO: check with server that this is valid, get a token back, etc...
+        this._enterApp();
+      }
+    }
+
+    _forgotPassword = () => {
+      Alert.alert("Do you remember the last place had it?");
+    }
+
+    _validateFields = () => {
+      let _valid = {
+        password: true,
+        email: true,
+      }
+
+      if (this.state.email == '') {
+        this.emailInput.shake();
+        _valid.email = false;
+      }
+      // for no password
+      if (this.state.password == '') {
+        this.passwordInput.shake();
+        _valid.password = false;
+      }
+
+      this.setState({valid: _valid});
+      return (_valid.email && _valid.password);
     }
 
     render() {
@@ -27,98 +75,123 @@ export default class LoginScreen extends React.Component {
     const { navigate } = this.props.navigation;
 
     return (
-        <View style={styles.container}>
-            <View style={styles.textContainer}>
-                <Text style={styles.title}>STOMP</Text>
-            </View>
+            <View style={styles.container}>
+                <View style={styles.titleContainer}>
+                    <Text style={styles.title}>STOMP</Text>
+                </View>
 
-            <View style={styles.inputContainer}>
-                <Text style={styles.text}>Email</Text>
-                <TextInput style={styles.input}/>
-                <Text style={styles.text}>Password</Text>
-                <TextInput style={styles.input} secureTextEntry={true}/>
-            </View>
+                <View style={styles.form}>
+                    <View style={styles.formRow}>
 
-            <View style={styles.buttonContainer}>
-                <Button
-                    titleStyle={{ fontWeight: "700" }}
-                    buttonStyle={styles.button}
-                    onPress = {() => {this._enterApp()}}
-                    containerStyle={{ marginTop: 20 }}
-                    title="LOG IN">
-                </Button>
-            </View>
+                    </View>
+                    <View style={styles.formRow}>
+                        <Input
+                        containerStyle={{flex: 1}}
+                        placeholderTextColor={'#EFEFF3'}
+                        inputStyle={{color:'#FFFFFF'}}
+                        labelStyle={styles.labelStyle}
+                        inputContainerStyle={styles.inputContainerStyle}
+                        label='Email'
+                        placeholder='foo@bar.foo'
+                        onChangeText={(text) => this.setState({email: text})}
+                        ref = {input=>this.emailInput = input }
+                        errorMessage = {this.state.valid.email ? " " : "Required"}
+                        />
+                    </View>
+                    <View style={styles.formRow}>
+                        <Input
+                        containerStyle={{flex: 1}}
+                        labelStyle={styles.labelStyle}
+                        inputContainerStyle={styles.inputContainerStyle_password}
+                        label='Password'
+                        placeholder='barfoo'
+                        secureTextEntry={true}
+                        onChangeText={(text) => this.setState({password: text})}
+                        ref = {input=>this.passwordInput = input }
+                        errorMessage = {this.state.valid.password ? " " : "Required"}
+                        />
+                    </View>
 
-            <View style={styles.linkContainer}>
-                <Text style={styles.link} onPress={() => Linking.openURL('http://google.com')}>Forgot your password?</Text>
-                <Text style={styles.text, {color: '#48797C', marginTop: 10}}>Need an account?</Text>
-                <Text style={styles.link} onPress = {() => {this._goToSignUp()}}>SIGN UP</Text>
+                    <Button
+                        containerStyle={{flex: 1, justifyContent: 'center'}}
+                        buttonStyle={styles.button}
+                        onPress = {() => {this._signIn()}}
+                        title="LOG IN">
+                    </Button>
+                </View>
+
+                <View style={styles.linkContainer}>
+                    <Text style={styles.link} onPress = {() => {this._forgotPassword()}}>Forgotten your password?</Text>
+                    <Text style={{color: '#48797C', marginTop: 10}}>Need an account?</Text>
+                    <Text style={styles.link} onPress = {() => {this._goToSignUp()}}>SIGN UP</Text>
+                </View>
             </View>
-        </View>
-    );
-  }
+        );
+    }
 }
 
-const styles = StyleSheet.create({
 
+const styles = StyleSheet.create({
     container : {
         flex: 1,
         backgroundColor: '#FFF',
         justifyContent: 'center',
         alignItems: 'center',
+        padding: 30,
     },
     title: {
-        color: 'black',
+        color: '#272727',
         fontSize: 50,
         letterSpacing: 3,
-        paddingBottom: 30,
         textAlign: 'center',
     },
-    textContainer: {
-      flex: 3,
+    titleContainer: {
+      flex: 1,
       flexDirection: 'column',
-      justifyContent: 'flex-end',
-    },
-    text: {
-        alignSelf: 'flex-start',
-        fontSize: 14,
-        color: '#272727',
-        marginTop: 20,
-    },
-    inputContainer: {
-        flex: 3,
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-    },
-    input: {
-        color: '#FFFFFF',
-        paddingLeft: 10,
-        paddingRight: 10,
-        backgroundColor: '#48797C',
-        borderColor: '#80CBC4',
-        borderWidth: 1,
-        flex: .15,
-        width: 285,
-    },
-    buttonContainer: {
-      flex: 2,
-      flexDirection: 'column',
-      justifyContent: 'flex-start',
+      justifyContent: 'center',
     },
     button: {
-      backgroundColor: "black",
+      backgroundColor: "#272727",
       width: '100%',
-      margin: 4,
       justifyContent: "center",
       alignItems: "center",
     },
+    form: {
+      width: '100%',
+      flex: 5,
+      justifyContent: 'center'
+    },
+    formRow: {
+      flex: 1,
+      width: '100%',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
+    inputContainerStyle: {
+      backgroundColor: '#48797C',
+      borderColor: '#80CBC4',
+      borderWidth: 1,
+      borderRadius: 3,
+    },
+    inputContainerStyle_password: {
+      backgroundColor: '#FFFFFF',
+      borderColor: '#80CBC4',
+      borderRadius: 3,
+      borderWidth: 1,
+    },
+    labelStyle: {
+      fontSize: 12,
+      color:'#272727',
+    },
     linkContainer: {
-      flex: 2,
+      flex: 1,
       flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center',
       },
     link: {
+        marginTop: 10,
         color: '#48797C',
         textDecorationLine: 'underline',
     }

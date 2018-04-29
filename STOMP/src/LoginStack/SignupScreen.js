@@ -7,6 +7,26 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default class SignupScreen extends React.Component {
 
+    constructor(props) {
+      super(props);
+      this.state = {
+        firstName: '',
+        lastName: '',
+        password: '',
+        passwordConfirm: '',
+        email: '',
+
+        // all valid so that we don't shake the first time.
+        valid: {
+          firstName: true,
+          lastName: true,
+          password: true,
+          passwordConfirm: true,
+          email: true,
+        }
+      }
+    }
+
     // These are for react navigation, like header bar and such
     static navigationOptions = {
         title: 'Sign Up',
@@ -20,6 +40,54 @@ export default class SignupScreen extends React.Component {
     _goToLogIn = () => {
         const { navigate } = this.props.navigation;
         navigate('Login', {})
+    }
+
+    _submitSignUp = () => {
+      let valid = this._validateFields();
+
+      // then we attempt to sign up with the server...
+      if (valid) {
+        Alert.alert("All fields valid, signing up!");
+      }
+
+    }
+
+    _validateFields = () => {
+      let _valid = {
+        firstName: true,
+        lastName: true,
+        password: true,
+        passwordConfirm: true,
+        email: true,
+      }
+
+      if (this.state.firstName == '') {
+        this.firstNameInput.shake();
+        _valid.firstName = false;
+      }
+      if (this.state.lastName == '') {
+        this.lastNameInput.shake();
+        _valid.lastName = false;
+      }
+      if (this.state.email == '') {
+        this.emailInput.shake();
+        _valid.email = false;
+      }
+      // for no password
+      if (this.state.password == '') {
+        this.passwordConfirmInput.shake();
+        this.passwordInput.shake();
+        _valid.password = false;
+      }
+      // for non matching confirmation
+      if (this.state.password != this.state.passwordConfirm) {
+        this.passwordConfirmInput.shake();
+        this.passwordInput.shake();
+        _valid.passwordConfirm = false;
+      }
+
+      this.setState({valid: _valid});
+      return (_valid.firstName && _valid.lastName && _valid.email && _valid.password && _valid.passwordConfirm);
     }
 
     render() {
@@ -42,6 +110,9 @@ export default class SignupScreen extends React.Component {
                             inputContainerStyle={styles.inputContainerStyle}
                             label='First Name'
                             placeholder='Foo'
+                            onChangeText={(text) => this.setState({firstName: text})}
+                            ref = {input=>this.firstNameInput = input }
+                            errorMessage = {this.state.valid.firstName ? " " : "Required"}
                             />
                             <Input
                             containerStyle={{flex: 1, marginLeft:5}}
@@ -51,6 +122,9 @@ export default class SignupScreen extends React.Component {
                             inputContainerStyle={styles.inputContainerStyle}
                             label='Last Name'
                             placeholder='Bar'
+                            onChangeText={(text) => this.setState({lastName: text})}
+                            ref = {input=>this.lastNameInput = input }
+                            errorMessage = {this.state.valid.lastName ? " " : "Required"}
                             />
                     </View>
                     <View style={styles.formRow}>
@@ -62,6 +136,9 @@ export default class SignupScreen extends React.Component {
                         inputContainerStyle={styles.inputContainerStyle}
                         label='Email'
                         placeholder='foo@bar.foo'
+                        onChangeText={(text) => this.setState({email: text})}
+                        ref = {input=>this.emailInput = input }
+                        errorMessage = {this.state.valid.email ? " " : "Required"}
                         />
                     </View>
                     <View style={styles.formRow}>
@@ -72,6 +149,9 @@ export default class SignupScreen extends React.Component {
                         label='Password'
                         placeholder='barfoo'
                         secureTextEntry={true}
+                        onChangeText={(text) => this.setState({password: text})}
+                        ref = {input=>this.passwordInput = input }
+                        errorMessage = {this.state.valid.password ? " " : "Required"}
                         />
                     </View>
                     <View style={styles.formRow}>
@@ -82,13 +162,16 @@ export default class SignupScreen extends React.Component {
                         label='Confirm Password'
                         placeholder='foobitydoobity'
                         secureTextEntry={true}
+                        onChangeText={(text) => this.setState({passwordConfirm: text})}
+                        ref = {input=>this.passwordConfirmInput = input }
+                        errorMessage = {this.state.valid.passwordConfirm ? " " : "Passwords Must Match"}
                         />
                     </View>
 
                     <Button
                         containerStyle={{flex: 1, justifyContent: 'center'}}
                         buttonStyle={styles.button}
-                        onPress = {() => {this._enterApp()}}
+                        onPress = {() => {this._submitSignUp()}}
                         title="SIGN UP">
                     </Button>
                 </View>
