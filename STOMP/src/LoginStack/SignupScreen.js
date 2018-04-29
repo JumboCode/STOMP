@@ -1,7 +1,7 @@
 import React from 'react';
 import { Alert, Linking, StyleSheet, TextInput, Text, View } from 'react-native';
 import { StackNavigator } from 'react-navigation';
-import { Button } from 'react-native-elements';
+import { Button, Input } from 'react-native-elements';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -28,35 +28,73 @@ export default class SignupScreen extends React.Component {
 
     return (
             <View style={styles.container}>
-                <View style={styles.textContainer}>
+                <View style={styles.titleContainer}>
                     <Text style={styles.title}>STOMP</Text>
                 </View>
 
-                <View style={styles.inputContainer}>
-                    <Text style={styles.text}>First Name</Text>
-                    <TextInput style={styles.input}/>
-                    <Text style={styles.text}>Last Name</Text>
-                    <TextInput style={styles.input}/>
-                    <Text style={styles.text}>Email</Text>
-                    <TextInput style={styles.input}/>
-                    <Text style={styles.text}>Password</Text>
-                    <TextInput style={styles.input} secureTextEntry={true}/>
-                    <Text style={styles.text}>Confirm Password</Text>
-                    <TextInput style={styles.input} secureTextEntry={true}/>
-                </View>
+                <View style={styles.form}>
+                    <View style={styles.formRow}>
+                            <Input
+                            containerStyle={{flex: 1, marginRight:5}}
+                            placeholderTextColor={'#EFEFF3'}
+                            inputStyle={{color:'#FFFFFF'}}
+                            labelStyle={styles.labelStyle}
+                            inputContainerStyle={styles.inputContainerStyle}
+                            label='First Name'
+                            placeholder='Foo'
+                            />
+                            <Input
+                            containerStyle={{flex: 1, marginLeft:5}}
+                            placeholderTextColor={'#EFEFF3'}
+                            inputStyle={{color:'#FFFFFF'}}
+                            labelStyle={styles.labelStyle}
+                            inputContainerStyle={styles.inputContainerStyle}
+                            label='Last Name'
+                            placeholder='Bar'
+                            />
+                    </View>
+                    <View style={styles.formRow}>
+                        <Input
+                        containerStyle={{flex: 1}}
+                        placeholderTextColor={'#EFEFF3'}
+                        inputStyle={{color:'#FFFFFF'}}
+                        labelStyle={styles.labelStyle}
+                        inputContainerStyle={styles.inputContainerStyle}
+                        label='Email'
+                        placeholder='foo@bar.foo'
+                        />
+                    </View>
+                    <View style={styles.formRow}>
+                        <Input
+                        containerStyle={{flex: 1}}
+                        labelStyle={styles.labelStyle}
+                        inputContainerStyle={styles.inputContainerStyle_password}
+                        label='Password'
+                        placeholder='barfoo'
+                        secureTextEntry={true}
+                        />
+                    </View>
+                    <View style={styles.formRow}>
+                        <Input
+                        containerStyle={{flex: 1}}
+                        labelStyle={styles.labelStyle}
+                        inputContainerStyle={styles.inputContainerStyle_password}
+                        label='Confirm Password'
+                        placeholder='foobitydoobity'
+                        secureTextEntry={true}
+                        />
+                    </View>
 
-                <View style={styles.buttonContainer}>
                     <Button
-                        titleStyle={{ fontWeight: "700" }}
+                        containerStyle={{flex: 1, justifyContent: 'center'}}
                         buttonStyle={styles.button}
                         onPress = {() => {this._enterApp()}}
-                        containerStyle={{ marginTop: 20 }}
                         title="SIGN UP">
                     </Button>
                 </View>
 
                 <View style={styles.linkContainer}>
-                    <Text style={styles.text, {color: '#48797C', marginTop: 10}}>Already have an account?</Text>
+                    <Text style={{color: '#48797C'}}>Already have an account?</Text>
                     <Text style={styles.link} onPress = {() => {this._goToLogIn()}}>LOG IN</Text>
                 </View>
             </View>
@@ -71,59 +109,61 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFF',
         justifyContent: 'center',
         alignItems: 'center',
+        padding: 30,
     },
     title: {
-        color: 'black',
+        color: '#272727',
         fontSize: 50,
         letterSpacing: 3,
-        paddingBottom: 30,
         textAlign: 'center',
     },
-    textContainer: {
-      flex: 2,
+    titleContainer: {
+      flex: 1,
       flexDirection: 'column',
-      justifyContent: 'flex-end',
-    },
-    text: {
-        alignSelf: 'flex-start',
-        fontSize: 14,
-        color: '#272727',
-        marginTop: 20,
-    },
-    inputContainer: {
-        flex: 5,
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-    },
-    input: {
-        color: '#FFFFFF',
-        paddingLeft: 10,
-        paddingRight: 10,
-        backgroundColor: '#48797C',
-        borderColor: '#80CBC4',
-        borderWidth: 1,
-        flex: .15,
-        width: 285,
-    },
-    buttonContainer: {
-      flex: 2,
-      flexDirection: 'column',
-      justifyContent: 'flex-start',
+      justifyContent: 'center',
     },
     button: {
-      backgroundColor: "black",
+      backgroundColor: "#272727",
       width: '100%',
-      margin: 4,
       justifyContent: "center",
       alignItems: "center",
     },
+    form: {
+      width: '100%',
+      flex: 5,
+      justifyContent: 'center'
+    },
+    formRow: {
+      flex: 1,
+      width: '100%',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
+    inputContainerStyle: {
+      backgroundColor: '#48797C',
+      borderColor: '#80CBC4',
+      borderWidth: 1,
+      borderRadius: 3,
+    },
+    inputContainerStyle_password: {
+      backgroundColor: '#FFFFFF',
+      borderColor: '#80CBC4',
+      borderRadius: 3,
+      borderWidth: 1,
+    },
+    labelStyle: {
+      fontSize: 12,
+      color:'#272727',
+    },
     linkContainer: {
-      flex: 2,
+      flex: 1,
       flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center',
       },
     link: {
+        marginTop: 10,
         color: '#48797C',
         textDecorationLine: 'underline',
     }

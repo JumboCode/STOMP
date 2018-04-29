@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, FlatList } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
 // This is the list from React Native Elements
-import { List, ListItem } from 'react-native-elements'
+import { ListItem } from 'react-native-elements'
 
 // Here's an array that we will use for dummmy data
 // TODO: make a request to the heroku server to retrieve the data <- maybe do this on the item, not here.
@@ -48,24 +48,21 @@ export default class ListScreen extends React.Component {
     const { navigate } = this.props.navigation;
 
     return (
-      <List containerStyle={{marginBottom: 20}}>
+      <View>
         {
           // this maps our map to renderable ListItems
           this.state.list.map((item, index) => (
             <ListItem
               key={index} // Ensure these are unique per item (like by using the list index)
               title={item}
-              //subtitle={item.description}
-              //leftIcon={{ name: item.icon }}
-              onPress={() =>
-
-                // Navigate to the item screen, and pass the name of the selected item as a prop
-                navigate('Item', { name: item })
+              onPress={
+                  // Navigate to the item screen, and pass the name of the selected item as a prop
+                  () => { navigate('Item', { name: item }) }
               }
             />
           ))
         }
-      </List>
+      </View>
     );
   }
 }
