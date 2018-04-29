@@ -1,25 +1,22 @@
 import React from 'react';
-import { View, Text, FlatList } from 'react-native';
+import { Alert, ActivityIndicator, View, Text, FlatList } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
 // This is the list from React Native Elements
-import { ListItem } from 'react-native-elements'
-
-// Here's an array that we will use for dummmy data
-// TODO: make a request to the heroku server to retrieve the data <- maybe do this on the item, not here.
-// TODO: populate the icon (or image) with something suitible
-
-
-
-
+import { ListItem, SearchBar} from 'react-native-elements'
 
 export default class ListScreen extends React.Component {
 
   constructor(props){
     super(props);
     this.state={
-      list: []
+      loading: true,
+      list: [],
+      searchInput: '',
     }
+  }
+
+  componentDidMount = () => {
     this._getList();
   }
 
@@ -29,39 +26,74 @@ export default class ListScreen extends React.Component {
   };
 
   _getList= () => {
+    this.setState({
+      loading: true,
+    });
+    // Having a timout of a second makes refreshing seem like it 'works' !
+    setTimeout(this._getList_afterTimeout, 1000);
+  }
+
+  _getList_afterTimeout = () => {
     request = new XMLHttpRequest();
     request.open('GET', 'https://shrouded-crag-14655.herokuapp.com/getList', true);
+    let self = this;
     request.onreadystatechange = () => {
       if (request.readyState == 4 && request.status == 200) {
         responseString = request.responseText;
         let _list = JSON.parse(responseString); //response text into array
-        this.setState({ list: _list })
+        self.setState({
+          list: _list,
+          loading: false,
+        })
       }
       //TODO: else case
     };
     request.send();
   }
 
-  render() {
+  // TODO: maybe use the GUID as the key?
+  _keyExtractor = (item, index) => {
+    return (index);
+  }
 
+  _renderItem = ({ item }) => {
     // this is the navigator we passed in from App.js
     const { navigate } = this.props.navigation;
 
+    return(
+      <ListItem
+        title={item}
+        onPress={ () => { navigate('Item', { name: item, id: 0 }) } }
+        chevron
+        bottomDivider={true}
+      />
+    )
+  }
+
+  _filterItems = (items) => {
+  return items.filter(item => (item.toLowerCase().includes(this.state.searchInput))).sort();
+  }
+
+  render() {
     return (
-      <View>
-        {
-          // this maps our map to renderable ListItems
-          this.state.list.map((item, index) => (
-            <ListItem
-              key={index} // Ensure these are unique per item (like by using the list index)
-              title={item}
-              onPress={
-                  // Navigate to the item screen, and pass the name of the selected item as a prop
-                  () => { navigate('Item', { name: item }) }
-              }
-            />
-          ))
-        }
+      <View style={{height: "100%"}}>
+          <SearchBar
+            cancelButtonTitle="Cancel"
+            placeholder="Search (Ex. foo)"
+            containerStyle={{backgroundColor: 'transparent'}}
+            onChangeText={(str) => {this.setState({searchInput: str.toLowerCase()})}}
+            onClearText={() => this.setState({searchInput: ''})}
+            value={this.state.searchInput}
+            lightTheme
+            clearIcon={this.state.searchInput !== ''}
+          />
+          <FlatList
+            keyExtractor={this.keyExtractor}
+            data={this._filterItems(this.state.list)}
+            renderItem={this._renderItem}
+            onRefresh={()=>{this._getList()}}
+            refreshing={this.state.loading}
+          />
       </View>
     );
   }
