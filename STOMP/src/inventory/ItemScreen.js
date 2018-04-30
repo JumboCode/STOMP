@@ -14,80 +14,120 @@ request.onreadystatechange = function() {
 request.send();*/
 
 export default class ItemScreen extends React.Component {
+    constructor(props) {
+      super(props);
+      const { params } = this.props.navigation.state;
+      this.state = {
+        MaxQuantity: -1,
+        Reservations: [],
+        id: params._id,
+        name: params.name,
+        loading: true,
+      }
+    }
 
-  // These are for react navigation, like header bar and such
-  // Here, let's have the title use props passed in:
-  static navigationOptions = ({ navigation }) => {
-      const { params } = navigation.state;
+    componentDidMount = () => {
+      this._getItem();
+    }
 
-       return {
-        title: "Item: " + params.name,
-      }
-  };
+    _getItem = () => {
+      this.setState({
+        loading: true,
+      });
 
-   state = {
-        Quantity: '',
-        Dates: ''
-      }
-      handleQuantity = (text) => {
-        this.setState({ Quantity: text })
-      }
-      handleDates =  (text) => {
-        this.setState({ Dates: text })
-      }
+      // TODO: call mongo
+      this.setState({
+        loading: false,
+      });
+    }
+
+    // These are for react navigation, like header bar and such
+    // Here, let's have the title use props passed in:
+    static navigationOptions = {
+        title: "Reserve Item",
+        headerStyle: {
+          backgroundColor: '#272727',
+        },
+        headerTintColor: '#FFFFFF',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+    };
 
   render() {
     // Get parameters passed in from previous screen
     const { params } = this.props.navigation.state;
 
     return (
-      <View style = {styles.container}>
-            <TextInput style = {styles.input}
-               underlineColorAndroid = "transparent"
-               placeholder = "Quantity"
-               placeholderTextColor = "gray"
-               autoCapitalize = "none"
-               onChangeText = {this.handleQuantity}/>
-            
-            <TextInput style = {styles.input}
-               underlineColorAndroid = "transparent"
-               placeholder = "Dates"
-               placeholderTextColor = "gray"
-               autoCapitalize = "none"
-               onChangeText = {this.handleDates}/>
-
-             <Button
-              large
-              backgroundColor = 'blue'
-              title="RESERVE"
-              onPress={() => 
-                Alert.alert(
-                  'Reserved ' + params.name
-                )  
-              }
-            />
+      <View style={styles.titleContainer}>
+          <Text style={styles.title}>{this.state.name}</Text>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    paddingTop: 23
+  container : {
+      flex: 1,
+      backgroundColor: '#FFF',
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: 30,
   },
-  input: {
-    margin: 15,
-    height: 40,
-    borderColor: 'black',
-    borderWidth: 1
+  title: {
+      color: '#272727',
+      fontSize: 50,
+      letterSpacing: 3,
+      textAlign: 'center',
   },
-  submitButton: {
-    backgroundColor: '#7a42f4',
-    padding: 10,
-    margin: 15,
-    height: 40,
+  titleContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
   },
-  submitButtonText:{
-    color: 'white'
+  button: {
+    backgroundColor: "#272727",
+    width: '100%',
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  form: {
+    width: '100%',
+    flex: 5,
+    justifyContent: 'center'
+  },
+  formRow: {
+    flex: 1,
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  inputContainerStyle: {
+    backgroundColor: '#48797C',
+    borderColor: '#80CBC4',
+    borderWidth: 1,
+    borderRadius: 3,
+  },
+  inputContainerStyle_password: {
+    backgroundColor: '#FFFFFF',
+    borderColor: '#80CBC4',
+    borderRadius: 3,
+    borderWidth: 1,
+  },
+  labelStyle: {
+    fontSize: 12,
+    color:'#272727',
+  },
+  linkContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    },
+  link: {
+      marginTop: 10,
+      color: '#48797C',
+      textDecorationLine: 'underline',
   }
-})
+  });

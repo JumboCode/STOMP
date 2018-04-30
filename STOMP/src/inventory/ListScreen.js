@@ -48,6 +48,7 @@ export default class ListScreen extends React.Component {
       if (request.readyState == 4 && request.status == 200) {
         responseString = request.responseText;
         let _list = JSON.parse(responseString); //response text into array
+        console.log(_list);
         self.setState({
           list: _list,
           loading: false,
@@ -60,7 +61,7 @@ export default class ListScreen extends React.Component {
 
   // TODO: maybe use the GUID as the key?
   _keyExtractor = (item, index) => {
-    return (index);
+    return (item._id);
   }
 
   _renderItem = ({ item }) => {
@@ -69,8 +70,8 @@ export default class ListScreen extends React.Component {
 
     return(
       <ListItem
-        title={item}
-        onPress={ () => { navigate('Item', { name: item, id: 0 }) } }
+        title={item.name}
+        onPress={ () => { navigate('Item', { name: item.name, id: item._id }) } }
         chevron
         bottomDivider={true}
       />
@@ -78,7 +79,7 @@ export default class ListScreen extends React.Component {
   }
 
   _filterItems = (items) => {
-  return items.filter(item => (item.toLowerCase().includes(this.state.searchInput))).sort();
+  return items.filter(item => (item.name.toLowerCase().includes(this.state.searchInput))).sort();
   }
 
   render() {
