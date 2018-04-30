@@ -32,6 +32,24 @@ export default class SignupScreen extends React.Component {
         title: 'Sign Up',
     };
 
+    _signUp = () => {
+        fetch('https://shrouded-crag-14655.herokuapp.com/signup', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+
+            'email': this.state.email,
+            'password': this.state.password,
+          }),
+        }).then((response) => {console.log(response)})
+          .catch((error) => {
+            console.error(error);
+          });
+      }
+
     _enterApp = () => {
         const { navigate } = this.props.navigation;
         navigate('AppSwitch', {})
@@ -47,6 +65,7 @@ export default class SignupScreen extends React.Component {
 
       // then we attempt to sign up with the server...
       if (valid) {
+        this._signUp();
         Alert.alert("All fields valid, signing up!");
       }
 
