@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TextInput, StyleSheet, Alert } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { Button } from 'react-native-elements';
+import Counter from '../modules/counter';
 
 /*request = new XMLHttpRequest();
 request.open('GET', 'https://shrouded-crag-14655.herokuapp.com/getItem?name=bucket', true);
@@ -20,9 +21,10 @@ export default class ItemScreen extends React.Component {
       this.state = {
         MaxQuantity: -1,
         Reservations: [],
-        id: params._id,
+        id: params.id,
         name: params.name,
         loading: true,
+        selectedCount: 0,
       }
     }
 
@@ -34,11 +36,18 @@ export default class ItemScreen extends React.Component {
       this.setState({
         loading: true,
       });
+      console.log(this.state.id);
 
-      // TODO: call mongo
-      this.setState({
-        loading: false,
-      });
+      fetch('https://shrouded-crag-14655.herokuapp.com/getItem?id=' + this.state.id, {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      }).then((response) => {console.log(response)})
+        .catch((error) => {
+          console.error(error);
+        });
     }
 
     // These are for react navigation, like header bar and such
@@ -59,9 +68,48 @@ export default class ItemScreen extends React.Component {
     const { params } = this.props.navigation.state;
 
     return (
-      <View style={styles.titleContainer}>
-          <Text style={styles.title}>{this.state.name}</Text>
+      <View style={styles.container}>
+          <View style={styles.titleContainer}>
+              <Text style={styles.title}>{this.state.name}</Text>
+          </View>
+          <View style={styles.form}>
+              <View style={styles.formRow}>
+                  <View style={{flex: 1}}>
+                      <Text>{'Choose Date:'}</Text>
+                  </View>
+                  <View style={{flex: 1}}>
+                      <Text>{'______'}</Text>
+                  </View>
+              </View>
+              <View style={styles.formRow}>
+                  <View style={{flex: 1}}>
+                      <Text>{'Available:'}</Text>
+                  </View>
+                  <View style={{flex: 1}}>
+                      <Text>{this.state.MaxQuantity}</Text>
+                  </View>
+              </View>
+              <View style={styles.formRow}>
+                  <View style={{flex: 1}}>
+                      <Text>{'How many?'}</Text>
+                  </View>
+                  <View style={{flex: 1}}>
+                      <Counter
+                          itemName={""}
+                          count={0}
+                          onValueChange= {(val) => {this.setState({selectedCount: val})}}
+                      />
+                  </View>
+              </View>
+              <Button
+                  containerStyle={{flex: 1, justifyContent: 'center'}}
+                  buttonStyle={styles.button}
+                  onPress = {() => {this._reserveItem()}}
+                  title="Reserve">
+              </Button>
+            </View>
       </View>
+
     );
   }
 }
