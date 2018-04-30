@@ -31,6 +31,9 @@ app.post('/signup', passport.authenticate('local-signup', {
 
 const jwt = require('jsonwebtoken');
 
+const expressJwt = require('express-jwt');  
+const authenticate = expressJwt({secret : 'server secret'});
+
 function generateToken(req, res, next) {  
   req.token = jwt.sign({
     id: req.user.id,
@@ -58,7 +61,7 @@ app.get('/signup', function(req, res) {
 });
 
 /* Get items from the database. */
-app.get('/getList', function(req, res) {
+app.get('/getList', authenticate, function(req, res) {
     db.collection('items', function(error, coll) {
         if (error) {
             res.sendStatus(500);
@@ -80,7 +83,7 @@ app.get('/getList', function(req, res) {
 });
 
 /* Get info of a specific item from database. */
-app.get('/getItem', function(req, res) {
+app.get('/getItem', authenticate, function(req, res) {
     if (req.query.id == null) {
         res.sendStatus(500);
     } else {
@@ -138,8 +141,13 @@ app.post('/addItem', function(req, res) {
 
 /* Remove an item from the database. */
 app.post('/removeItem', function(req, res) {
+    if (req.body.id == null) {
+        res.sendStatus(500);
+        return;
+    }
+	var id = require('mongodb').ObjectID(req.body.id);
     db.collection('items', function(error, coll) {
-        coll.find({name: req.body.name}, function(error, results) {
+        coll.find({'_id': id}, function(error, results) {
             results.toArray(function(error, resultsarray) {
                 if (resultsarray.length == 0) {
                     res.sendStatus(500);
@@ -151,7 +159,7 @@ app.post('/removeItem', function(req, res) {
                     } else {
                         num--;
                         if (num === 0) {
-                            coll.deleteOne({name: req.body.name}, function(error, results) {
+                            coll.deleteOne({'_id': id}, function(error, results) {
                                 if (error) {
                                     res.sendStatus(500);
                                 } else {
@@ -159,7 +167,7 @@ app.post('/removeItem', function(req, res) {
                                 }
                             });
                         } else {
-                            coll.update({name: req.body.name}, {name: req.body.name, quantity: num, reservations: []}, function(error, results) {
+                            coll.update({'_id': id}, {name: resultsarray[0].name, quantity: num, reservations: []}, function(error, results) {
                                 if (error) {
                                     res.sendStatus(500);
                                 } else {
@@ -175,10 +183,11 @@ app.post('/removeItem', function(req, res) {
 });
 
 /* Reserve an item in the database. */
-app.post('/reserveItem', function(req, res) {
-    if (req.body.name == null || req.body.date == null || req.body.email == null || req.body.quantity == null) {
+app.post('/reserveItem', authenticate, function(req, res) {
+    if (req.body.id == null || req.body.date == null || req.body.email == null || req.body.quantity == null) {
         res.sendStatus(500);
     } else {
+        var id = require('mongodb').ObjectID(req.body.id);
         var date = new Date(Date.parse(req.body.date));
         if (!(date instanceof Date) || date < new Date()) {
             res.sendStatus(500);
@@ -189,7 +198,7 @@ app.post('/reserveItem', function(req, res) {
                 quantity: parseInt(req.body.quantity)
             }
             db.collection('items', function(error, collection) {
-                collection.find({name: req.body.name}, function(error, results) {
+                collection.find({'_id': id}, function(error, results) {
                     results.toArray(function(error, array) {
                         if (array.length === 0) {
                             res.sendStatus(500);
@@ -214,7 +223,7 @@ app.post('/reserveItem', function(req, res) {
                             /* Assign the new reservation. */
                             var objdates = obj.reservations;
                             objdates.push(reserve);
-                            collection.update({name: req.body.name}, {name: req.body.name, quantity: obj.quantity, reservations: objdates}, function(error, results) {
+                            collection.update({'_id': id}, {name: obj.name, quantity: obj.quantity, reservations: objdates}, function(error, results) {
                                 if (error) {
                                     res.sendStatus(500);
                                 } else {
