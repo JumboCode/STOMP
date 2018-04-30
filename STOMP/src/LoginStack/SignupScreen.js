@@ -2,6 +2,7 @@ import React from 'react';
 import { Alert, Linking, StyleSheet, TextInput, Text, View } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { Button, Input } from 'react-native-elements';
+import { Base64 } from 'js-base64';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -15,6 +16,7 @@ export default class SignupScreen extends React.Component {
         password: '',
         passwordConfirm: '',
         email: '',
+        token: '',
 
         // all valid so that we don't shake the first time.
         valid: {
@@ -33,6 +35,7 @@ export default class SignupScreen extends React.Component {
     };
 
     _signUp = () => {
+        this.setState({password: Base64.encode(this.state.password);})
         fetch('https://shrouded-crag-14655.herokuapp.com/signup', {
           method: 'POST',
           headers: {
@@ -40,11 +43,11 @@ export default class SignupScreen extends React.Component {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-
             'email': this.state.email,
             'password': this.state.password,
           }),
-        }).then((response) => {console.log(response)})
+        }).then((response) => {console.log(response);
+                                this.setState({token: response.token})})
           .catch((error) => {
             console.error(error);
           });
@@ -61,13 +64,13 @@ export default class SignupScreen extends React.Component {
     }
 
     _submitSignUp = () => {
-      let valid = this._validateFields();
+        let valid = this._validateFields();
 
-      // then we attempt to sign up with the server...
-      if (valid) {
-        this._signUp();
-        Alert.alert("All fields valid, signing up!");
-      }
+        // then we attempt to sign up with the server...
+        if (valid) {
+          this._signUp();
+          Alert.alert("All fields valid, signing up!");
+        }
 
     }
 

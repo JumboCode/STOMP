@@ -2,6 +2,7 @@ import React from 'react';
 import { Alert, Linking, StyleSheet, TextInput, Text, View } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { Button, Input } from 'react-native-elements';
+import { Base64 } from 'js-base64';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -12,6 +13,7 @@ export default class SignupScreen extends React.Component {
       this.state = {
         password: '',
         email: '',
+        token: ''
 
         // all valid so that we don't shake the first time.
         valid: {
@@ -25,6 +27,25 @@ export default class SignupScreen extends React.Component {
     static navigationOptions = {
         title: 'Log in',
     };
+
+     _login = () => {
+        this.setState({password: Base64.encode(this.state.password)})
+        fetch('https://shrouded-crag-14655.herokuapp.com/login', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            'email': this.state.email,
+            'password': this.state.password,
+          }),
+        }).then((response) => {console.log(response.token); 
+                                this.setState({token: response.token})})
+          .catch((error) => {
+            console.error(error);
+          });
+      }
 
     _enterApp = () => {
         const { navigate } = this.props.navigation;
@@ -42,6 +63,7 @@ export default class SignupScreen extends React.Component {
       // then we attempt to sign up with the server...
       if (valid) {
         // TODO: check with server that this is valid, get a token back, etc...
+
         this._enterApp();
       }
     }
