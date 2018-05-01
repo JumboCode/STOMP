@@ -2,7 +2,7 @@ import React from 'react';
 import { Alert, Linking, StyleSheet, TextInput, Text, View } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { Button, Input } from 'react-native-elements';
-import { Base64 } from 'js-base64';
+// import { Base64 } from 'js-base64';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -13,7 +13,7 @@ export default class SignupScreen extends React.Component {
       this.state = {
         password: '',
         email: '',
-        token: ''
+        token: '',
 
         // all valid so that we don't shake the first time.
         valid: {
@@ -29,7 +29,7 @@ export default class SignupScreen extends React.Component {
     };
 
      _login = () => {
-        this.setState({password: Base64.encode(this.state.password)})
+        // this.setState({password: Base64.encode(this.state.password)})
         fetch('https://shrouded-crag-14655.herokuapp.com/login', {
           method: 'POST',
           headers: {
@@ -40,8 +40,8 @@ export default class SignupScreen extends React.Component {
             'email': this.state.email,
             'password': this.state.password,
           }),
-        }).then((response) => {console.log(response.token); 
-                                this.setState({token: response.token})})
+        })//.then((response) => response.json())
+          .then((responseJSON) => {this.setState({token: responseJSON.token})})
           .catch((error) => {
             console.error(error);
           });
@@ -49,7 +49,7 @@ export default class SignupScreen extends React.Component {
 
     _enterApp = () => {
         const { navigate } = this.props.navigation;
-        navigate('AppSwitch', {})
+        navigate('AppSwitch', {token: this.state.token, email: this.state.email})
     }
 
     _goToSignUp = () => {
@@ -62,9 +62,9 @@ export default class SignupScreen extends React.Component {
 
       // then we attempt to sign up with the server...
       if (valid) {
-        // TODO: check with server that this is valid, get a token back, etc...
-
-        this._enterApp();
+        this._login();
+        this._enterApp()
+        //.catch((error)=>(console.error(error)));
       }
     }
 

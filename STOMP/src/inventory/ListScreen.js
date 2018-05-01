@@ -9,15 +9,19 @@ export default class ListScreen extends React.Component {
 
   constructor(props){
     super(props);
+    const { params } = this.props.navigation.state;
     this.state={
       loading: true,
       list: [],
       searchInput: '',
+      token: "",
+      email: "",
     }
   }
 
   componentDidMount = () => {
     this._getList();
+    this.setState({token: this.props.navigation.state.token})
   }
 
   // These are for react navigation, like header bar and such
@@ -71,7 +75,7 @@ export default class ListScreen extends React.Component {
     return(
       <ListItem
         title={item.name}
-        onPress={ () => { navigate('Item', { name: item.name, id: item._id }) } }
+        onPress={ () => { navigate('Item', { name: item.name, id: item._id, token: this.state.token, email: this.state.email}) } }
         chevron
         bottomDivider={true}
       />

@@ -2,7 +2,7 @@ import React from 'react';
 import { Alert, Linking, StyleSheet, TextInput, Text, View } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { Button, Input } from 'react-native-elements';
-import { Base64 } from 'js-base64';
+// import { Base64 } from 'js-base64';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -35,7 +35,7 @@ export default class SignupScreen extends React.Component {
     };
 
     _signUp = () => {
-        this.setState({password: Base64.encode(this.state.password);})
+        // this.setState({password: Base64.encode(this.state.password)})
         fetch('https://shrouded-crag-14655.herokuapp.com/signup', {
           method: 'POST',
           headers: {
@@ -46,8 +46,8 @@ export default class SignupScreen extends React.Component {
             'email': this.state.email,
             'password': this.state.password,
           }),
-        }).then((response) => {console.log(response);
-                                this.setState({token: response.token})})
+        })//.then((response) => response.json())
+        .then((responseJSON) => {this.setState({token: responseJSON.token})})
           .catch((error) => {
             console.error(error);
           });
@@ -55,7 +55,7 @@ export default class SignupScreen extends React.Component {
 
     _enterApp = () => {
         const { navigate } = this.props.navigation;
-        navigate('AppSwitch', {})
+        navigate('AppSwitch', {token: this.state.token, email: this.state.email})
     }
 
     _goToLogIn = () => {

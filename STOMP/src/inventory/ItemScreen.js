@@ -25,6 +25,8 @@ export default class ItemScreen extends React.Component {
         name: params.name,
         loading: true,
         selectedCount: 0,
+        token: params.token,
+        email: params.email,
       }
     }
 
@@ -44,12 +46,32 @@ export default class ItemScreen extends React.Component {
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
-      }).then((response) => {console.log(response)})
+      }).then((response) => response.json())
+        .then((responseJSON) => {this.setState({Reservations: responseJSON.reservations, MaxQuantity: responseJSON.quantity})})
         .catch((error) => {
           console.error(error);
         });
     }
 
+    _reserveItem = () => {
+      fetch('https://shrouded-crag-14655.herokuapp.com/reserveItem', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer: ' + this.state.token,
+          },
+          body: JSON.stringify({
+            'id': this.state.id,
+            'date': 4/1/2018,
+            'quantity': this.state.selectedCount,
+            'email': this.state.email,
+          }),
+        }).then((response) => {console.log(response)})
+          .catch((error) => {
+            console.error(error);
+        });
+    }
     // These are for react navigation, like header bar and such
     // Here, let's have the title use props passed in:
     static navigationOptions = {
